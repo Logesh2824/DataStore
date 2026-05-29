@@ -1,4 +1,4 @@
-package com.ids;
+package com.config;
 
 import com.ids.config.DatabaseConfig;
 import org.junit.jupiter.api.Test;
