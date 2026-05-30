@@ -1,6 +1,7 @@
 package com.ids.ingestion;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ids.cache.ThreatCacheService;
 import com.ids.model.NetworkLog;
 import com.ids.repository.LogRepository;
 
@@ -75,6 +76,11 @@ public class CsvIngestionService {
                         flowId, sourceIp, destIp, sourcePort, destPort,
                         protocol, label, timestamp, jsonStats
                 );
+                boolean isKnownThreat = ThreatCacheService.isIpMalicious(sourceIp);
+                if (isKnownThreat) {
+                    System.out.println("🚨 ALERT: Ingesting traffic from known malicious IP: " + sourceIp);
+                    // You could theoretically modify the 'label' or add a flag to your JSON payload here
+                }
                 batchList.add(log);
                 totalProcessed++;
 
